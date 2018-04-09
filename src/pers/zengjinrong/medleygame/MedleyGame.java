@@ -11,7 +11,7 @@ import java.io.IOException;
  * 基于JAVA的移动拼图游戏实现
  *
  * @author ZengJinRong
- * @version 1.1
+ * @version 1.2
  */
 public class MedleyGame extends JFrame {
     private final String TITLE = "拼图游戏";      //标题
@@ -24,6 +24,7 @@ public class MedleyGame extends JFrame {
     private Image image;                //用于拼图显示的完整图片
     private Image imageMini;            //完整图片的略缩图
     private Image[][] images;           //图片经等分切割生成的图片组，分别用于各个拼图板块的显示
+    private JLabel[][] labels=new JLabel[ROWS][COLS];
 
     /**
      * 主函数入口
@@ -90,7 +91,7 @@ public class MedleyGame extends JFrame {
 
         final JButton startButton = new JButton();
         startButton.setText("下一局");
-        startButton.addActionListener(new StartButtonAction());
+        startButton.addActionListener(new ReStartButtonAction());
         topPanel.add(startButton, BorderLayout.CENTER);
     }
 
@@ -112,7 +113,6 @@ public class MedleyGame extends JFrame {
      * 对各个拼图板块显示的图片进行排序
      */
     private void orderImageLabels() {
-        imagesPanel.removeAll();
         Image[][] rightOrder = new Image[ROWS][COLS];
         for (int row = 0; row < ROWS; row++) {
             for (int col = 0; col < COLS; col++) {
@@ -123,7 +123,8 @@ public class MedleyGame extends JFrame {
         for (int row = 0; row < ROWS; row++) {
             for (int col = 0; col < COLS; col++) {
                 //循环遍历每一行每一列
-                final JLabel label = new JLabel();
+                labels[row][col] = new JLabel();
+                JLabel label = labels[row][col];
                 label.setName(row + "" + col);
                 label.addMouseListener(new ImageMouseAdapter());
 
@@ -176,10 +177,45 @@ public class MedleyGame extends JFrame {
     /**
      * 开始键监听器
      */
-    class StartButtonAction implements ActionListener {
+    class ReStartButtonAction implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            orderImageLabels();
+            reorderImageLabels();
         }
     }
+
+    private void reorderImageLabels() {
+        Image[][] rightOrder = new Image[ROWS][COLS];
+        for (int row = 0; row < ROWS; row++) {
+            for (int col = 0; col < COLS; col++) {
+                System.arraycopy(images[row], 0, rightOrder[row], 0, images[row].length);
+            }
+        }
+
+        for (int row = 0; row < ROWS; row++) {
+            for (int col = 0; col < COLS; col++) {
+                //循环遍历每一行每一列
+
+                //设置显示的图片
+                if (row == 0 && col == 0) {
+                    //第0行第0列设置为空白图片
+                    labels[row][col].setIcon(null);
+                    emptyImageLabel = labels[row][col];
+                } else {
+                    while (true) {
+                        int randomRow = (int) (Math.random() * ROWS);
+                        int randomCol = (int) (Math.random() * COLS);
+
+                        if (rightOrder[randomRow][randomCol] != null) {
+                            //该图片还未被使用过
+                            labels[row][col].setIcon(new ImageIcon(rightOrder[randomRow][randomCol]));
+                            rightOrder[randomRow][randomCol] = null;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 }
