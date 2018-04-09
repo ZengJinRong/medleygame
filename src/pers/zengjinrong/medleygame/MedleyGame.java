@@ -11,10 +11,10 @@ import java.io.IOException;
  * 基于JAVA的移动拼图游戏实现
  *
  * @author ZengJinRong
- * @version 1.0
+ * @version 1.1
  */
 public class MedleyGame extends JFrame {
-    private final String TITLE="拼图游戏";      //标题
+    private final String TITLE = "拼图游戏";      //标题
     private final int ROWS = 4;                 //拼图行数
     private final int COLS = 4;                 //拼图列数
     private final String IMG_URL = "res/image/image.jpg";   //图片所在路径
@@ -113,7 +113,12 @@ public class MedleyGame extends JFrame {
      */
     private void orderImageLabels() {
         imagesPanel.removeAll();
-        Image[][] rightOrder = images.clone();
+        Image[][] rightOrder = new Image[ROWS][COLS];
+        for (int row = 0; row < ROWS; row++) {
+            for (int col = 0; col < COLS; col++) {
+                System.arraycopy(images[row], 0, rightOrder[row], 0, images[row].length);
+            }
+        }
 
         for (int row = 0; row < ROWS; row++) {
             for (int col = 0; col < COLS; col++) {
