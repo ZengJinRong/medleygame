@@ -11,21 +11,21 @@ import java.io.IOException;
  * 基于JAVA的移动拼图游戏实现
  *
  * @author ZengJinRong
- * @version 2.1
+ * @version 2.2
  */
 public class MedleyGame extends JFrame {
-    private final String TITLE = "拼图游戏";      //标题
-    private final int ROWS = 4;                 //拼图行数
-    private final int COLS = 4;                 //拼图列数
-    private final String IMG_URL = "res/image/image.jpg";   //默认图片所在路径
+    private final String TITLE = "拼图游戏";                 //标题
+    private final int ROWS = 4;                             //拼图行数
+    private final int COLS = 4;                              //拼图列数
+    private final String IMG_URL_DEFAULT = "res/image/image.jpg";   //默认图片所在路径
 
-    private JPanel imagesPanel;         //拼图面板
-    private JLabel emptyImageLabel;     //空白拼图板块
-    private JLabel modelLabel;          //略缩图展示板块
-    private Image image;                //用于拼图显示的完整图片
-    private Image imageMini;            //完整图片的略缩图
-    private Image[][] images;           //图片经等分切割生成的图片组，分别用于各个拼图板块的显示
-    private JLabel[][] labels = new JLabel[ROWS][COLS];
+    private JPanel imagesPanel;                             //拼图面板
+    private JLabel emptyImageLabel;                         //空白拼图板块
+    private JLabel modelLabel;                              //略缩图展示板块
+    private Image image;                                    //用于拼图显示的完整图片
+    private Image imageMini;                                //完整图片的略缩图
+    private Image[][] images;                               //图片经等分切割生成的图片组，分别用于各个拼图板块的显示
+    private JLabel[][] labels = new JLabel[ROWS][COLS];     //拼图板块组
 
     /**
      * 主函数入口
@@ -46,7 +46,7 @@ public class MedleyGame extends JFrame {
         menuBarInit();
         topPanelInit();
         imagesPanelInit();
-        imageInit(IMG_URL);
+        imageInit(IMG_URL_DEFAULT);
     }
 
     /**
