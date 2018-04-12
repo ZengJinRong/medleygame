@@ -11,7 +11,7 @@ import java.io.IOException;
  * 基于JAVA的移动拼图游戏实现
  *
  * @author ZengJinRong
- * @version 2.0
+ * @version 2.1
  */
 public class MedleyGame extends JFrame {
     private final String TITLE = "拼图游戏";      //标题
@@ -41,11 +41,25 @@ public class MedleyGame extends JFrame {
      */
     private MedleyGame() {
         super();
+        lookAndFeelInit();
         windowInit();
         menuBarInit();
         topPanelInit();
         imagesPanelInit();
         imageInit(IMG_URL);
+    }
+
+    /**
+     * UI风格初始化
+     */
+    private void lookAndFeelInit(){
+        //设置UI风格为当前系统风格
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+                | UnsupportedLookAndFeelException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -212,7 +226,7 @@ public class MedleyGame extends JFrame {
     }
 
     /**
-     * 打开文件菜单项监听器
+     * 文件菜单项[打开]监听器
      */
     class MenuItemOpenAction implements ActionListener {
         @Override
